@@ -1,0 +1,84 @@
+
+   .contain{
+    position: relative;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    z-index: -99;
+
+   }
+  
+   .contain img{
+    width: 49%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: -1px 1px 62px -18px rgba(0, 0, 0, 0.19);
+
+   }
+   .contain p{
+    width: 49%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: -1px 1px 62px -18px rgba(0, 0, 0, 0.19);
+    background-image: url('https://okcredit-blog-images-prod.storage.googleapis.com/2020/12/poultry2.jpg');
+   }
+
+.contain p:nth-child(2){
+  position: absolute;
+    top: -10%;
+    right: 0;
+}
+
+
+   .second {
+    margin: 4rem 6rem;
+    margin-top: 70px;
+  }
+  
+  .second-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4.5rem;
+  }
+  .second-text {
+    width: 45%;
+    text-align: start;
+    font-size: 1.1rem;
+  }
+  .second-text h2 {
+    padding-bottom: 1rem;
+  }
+  .image1 {
+    position: relative;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    z-index: -99;
+  }
+  .image1 img {
+    width: 49%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: -1px 1px 62px -18px rgba(0, 0, 0, 0.19);
+  }
+  
+  .image1 img:nth-child(2) {
+    position: absolute;
+    top: -10%;
+    right: 0;
+  }
+  
+  .Third-page-reverse {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 4.5rem;
+  }
+  
+  
+  

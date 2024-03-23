@@ -1,0 +1,38 @@
+
+
+.report-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    padding: 20px;
+    z-index: 1000;
+    text-transform: uppercase;
+  }
+  
+  .report-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .report-nav li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .report-nav a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
+  }
+  
+  .report-nav a:hover {
+    color: #ffcc00;
+  }
+  .logout-company{
+    padding: 4px 7px;
+  }

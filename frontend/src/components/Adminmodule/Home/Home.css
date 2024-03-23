@@ -1,0 +1,113 @@
+.demo button{
+    font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      outline: 0;
+      
+      background-image: linear-gradient(45deg,#7ac4df, rgb(124, 117, 254));
+      width: 25%;
+      height: 50%;
+      border: 50;
+      padding: 50px;
+      color: #FFFFFF;
+      font-size: 20px;
+      -webkit-transition: all 0.3 ease;
+      transition: all 0.3 ease;
+      cursor: pointer;
+      margin-top: 3%;
+      margin-left: 2%;
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+      border-radius: 3%;
+}
+
+.demo2 button{
+    font-family: "Roboto", sans-serif;
+      text-transform: uppercase;
+      outline: 0;
+     
+      background-image: linear-gradient(45deg,#328f8a,#49fd94);
+      width: 25%;
+      height: 50%;
+      border: 50;
+      padding: 50px;
+      color: #FFFFFF;
+      font-size: 20px;
+      -webkit-transition: all 0.3 ease;
+      transition: all 0.3 ease;
+      cursor: pointer;
+      margin-top: 3%;
+      margin-left: 2%;
+      box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+      border-radius: 3%;
+}
+.topnav {
+  overflow: hidden;
+  background-color: #a8f0d6;
+  height: 80px;
+}
+
+.topnav p {
+  float: left;
+  color: #171817;
+  text-align: center;
+  padding: 2px;
+  text-decoration: none;
+  font-size: 30px;
+ margin-top: 15px;
+ margin-left: 10%
+
+}
+
+.list-items{
+ 
+  flex: 1;
+  padding-right: 5px;
+  font-size: 55px;
+  cursor: pointer;
+  color: black;
+  position: relative;
+  right: 820px;
+  margin-top: 0.5px
+
+}
+
+
+
+
+
+
+.admin-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333;
+  padding: 10px;
+  z-index: 1000;
+  text-transform: uppercase;
+}
+
+.admin-nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-nav li {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.admin-nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.admin-nav a:hover {
+  color: #ffcc00;
+}
+.logout-company{
+  padding: 4px 7px;
+}

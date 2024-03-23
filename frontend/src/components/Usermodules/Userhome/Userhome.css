@@ -1,0 +1,83 @@
+
+.uhome{
+   position: relative;
+    justify-content: center;
+    background-color:white;
+    padding: 60px 0;
+    margin-top: 30px;
+ 
+}
+.home{
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 36px;
+    margin-top: 5px;
+}
+.uimage{
+    width: 80%;
+    height:700px ; 
+} 
+
+#card-img {
+    height: 240px;
+    width: 190px;
+    /* border-radius: 10px; */
+    border-top-left-radius: 105px;
+    border-top-right-radius: 105px;
+    margin: 10px;
+    box-shadow: 2px 2px 10px #f9e4fc, -2px -2px 10px #ffe1e1;
+}
+#card-img:hover {
+    border-radius: 10px;
+    margin: 10px;
+    transform: scale(1.02)
+
+}
+
+#card1 {
+    border-right-style: solid;
+    border-width: 1px;
+    border-color: rgb(228, 207, 247);
+}
+
+#card1 h3 {
+    color: rgb(119, 17, 145);
+    font-family: 'Noto Serif', serif;
+}
+
+#card2 h3 {
+    color: rgb(119, 17, 145);
+    font-family: 'Noto Serif', serif;
+}
+
+#card3 h3 {
+    color: rgb(119, 17, 145);
+    font-family: 'Noto Serif', serif;
+}
+
+#card1 h3:hover {
+    color: rgb(179, 8, 247);
+    font-family: 'Noto Serif', serif;
+}
+
+#card2 h3:hover {
+    color: rgb(179, 8, 247);
+    font-family: 'Noto Serif', serif;
+}
+
+#card3 h3:hover {
+    color: rgb(179, 8, 247);
+    font-family: 'Noto Serif', serif;
+}
+
+#card2 {
+    border-right-style: solid;
+    border-width: 1px;
+    border-color: rgb(228, 207, 247);
+}
+
+#passage {
+    font-size: 15px;
+    font-family: 'Bad Script', cursive;
+}
+
