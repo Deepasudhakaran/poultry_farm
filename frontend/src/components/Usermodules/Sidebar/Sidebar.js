@@ -1,9 +1,9 @@
 import React from 'react';
 import './Sidebar.css'
-import { Link, useParams } from 'react-router-dom';
+import { Link,  } from 'react-router-dom';
 
-const Sidebar = (userid) => {
-
+const Sidebar = () => {
+ 
  
   return (
     <div>
@@ -19,7 +19,7 @@ const Sidebar = (userid) => {
         </header>
         <ul>
           <li><Link to='/profile' ><i class="fa-solid fa-house-crack"></i>Farm Details</Link></li>
-          <li><Link to={`/feed/${userid}`}  ><i class="fa-solid fa-wheat-awn" ></i>Feed Management</Link></li>
+          <li><Link to='/feed' ><i class="fa-solid fa-wheat-awn" ></i>Feed Management</Link></li>
           <li><Link to='/medicine' ><i class="fa-solid fa-tablets" ></i>Medicine Management</Link></li>
           <li><Link to='/egg' ><i class="fa-solid fa-egg" ></i>Egg Management</Link></li>
           <li><Link to='/mortality' ><i class="fa-solid fa-skull-crossbones"></i>Mortality Tracking</Link></li>
@@ -30,3 +30,9 @@ const Sidebar = (userid) => {
   );
 }
 export default Sidebar;
+
+
+
+
+
+

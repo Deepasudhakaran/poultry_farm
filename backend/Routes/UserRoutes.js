@@ -6,18 +6,20 @@ const userAuthMiddleware = require('../Middlewares/userAuth')
 
 router.post('/signup', userController.signUp);
 router.post('/login', userController.userLogin);
-router.post('/feed/:userId', userController.feedReport);
-router.post('/:userId/egg', userController.eggReport);
-router.post('/medicine', userController.medicineReport);
-router.post('/mortality', userController.mortalityReport);
+router.post('/feed',userAuthMiddleware, userController.feedReport);
+
+router.post('/egg',userAuthMiddleware, userController.eggReport);
+router.post('/medicine',userAuthMiddleware, userController.medicineReport);
+router.post('/mortality',userAuthMiddleware, userController.mortalityReport);
 router.post('/editprofile', userController.userProfile);
 router.post('/createmessage', userController.Createusermessage);
 
 router.get('/userheader', userAuthMiddleware, userController.userHeader);
-router.get('/feedlist/:userId', userController.getFeedReport);
-router.get('/egglist/:userId', userController.getEggReport);
-router.get('/medicinelist', userController.getMedicineReport);
-router.get('/mortalitylist', userController.getMortalityReport);
+router.get('/feedlist/:userId',userAuthMiddleware, userController.getFeedReport);
+
+router.get('/egglist/:userId',userAuthMiddleware, userController.getEggReport);
+router.get('/medicinelist',userAuthMiddleware, userController.getMedicineReport);
+router.get('/mortalitylist/:userId',userAuthMiddleware, userController.getMortalityReport);
 router.get('/profile', userController.getProfile);
 
 router.delete('/deletefeed/:id', userController.deleteFeed);

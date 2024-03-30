@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './Mortality.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -19,11 +19,11 @@ const Mortality = () => {
 
   const [musers, setMusers] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const userId = useParams().userid;
 
-
-  const fetchMortalityData = async () => {
+  const fetchMortalityData = async (userId) => {
     try {
-      const response = await getMortalityReport();
+      const response = await getMortalityReport(userId);
       if (response && response.mortalities) {
         const mortalities = response.mortalities || [];
         setMusers(mortalities);
@@ -38,8 +38,8 @@ const Mortality = () => {
 
 
   useEffect(() => {
-    fetchMortalityData();
-  }, []);
+    fetchMortalityData(userId);
+  }, [userId]);
 
 
 
@@ -58,11 +58,11 @@ const Mortality = () => {
           setEditingId(null);
           toast.success('mortality report updated successfully');
         } else {
-          await mortalityReport(values);
+          await mortalityReport(userId,values);
           console.log('mortality report created successfully');
           toast.success('mortality report created successful');
         }
-        fetchMortalityData();
+        fetchMortalityData(userId);
       } catch (error) {
         console.error('Error craeting report:', error.message);
         toast.error('Error creating report');

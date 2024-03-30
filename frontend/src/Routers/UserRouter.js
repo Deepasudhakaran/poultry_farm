@@ -15,6 +15,8 @@ import UserEditProfile from '../Pages/User/UserEditProfile';
 import { useSelector } from 'react-redux';
 import { selectUser } from '../Features/setUser';
 
+
+
 const UserRouter = () => {
   const user = useSelector(selectUser);
   return (
@@ -24,12 +26,12 @@ const UserRouter = () => {
         <Route path='/login' element={<UserLogin />} />
         <Route path='/' element={<UserHomePage />} />
         <Route path='/about' element={<UserAbout />} />
-        <Route path='/contact' element={<UserContact />} />
-        <Route path='/medicine' element={ user.value ?<UserMedicine /> : <Navigate to={'/login'}/>} />
-        <Route path='/egg' element={ user.value ?<UserEggReport /> : <Navigate to={'/login'}/>} />
-        <Route path='/feed/:userid' element={ user.value ? <UserFeedReport /> : <Navigate to={'/login'}/>} />
-        <Route path='/profile' element={<UserProfile />} />
-        <Route path='/mortality' element={ user.value ? <UserMortalityReport /> : <Navigate to={'/login'}/>} />
+        <Route path='/contact' element={user.value ? <UserContact /> : <Navigate to={'/login'} />} />
+        <Route path='/medicine' element={user.value ? <UserMedicine /> : <Navigate to={'/login'} />} />
+        <Route path='/egg' element={user.value ? <UserEggReport /> : <Navigate to={'/login'} />} />
+        <Route path='/feed' element={user.value ? <UserFeedReport /> : <Navigate to={'/login'} />} />
+        <Route path='/profile' element={user.value ? <UserProfile /> : <Navigate to={'/login'} />} />
+        <Route path='/mortality' element={user.value ? <UserMortalityReport /> : <Navigate to={'/login'} />} />
         <Route path='/editprofile' element={<UserEditProfile />} />
 
       </Routes>
@@ -38,3 +40,5 @@ const UserRouter = () => {
 }
 
 export default UserRouter;
+
+

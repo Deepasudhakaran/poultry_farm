@@ -9,7 +9,11 @@ const FarmSchema = new Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   tokens: [{ type: String }],
-  post: { type: Schema.Types.ObjectId, ref: 'FeedModel' }
+  post: [{ type: Schema.Types.ObjectId, ref: 'feeds' }],
+  fegg: [{ type: Schema.Types.ObjectId, ref: 'eggs' }],
+  fmedicine: [{ type: Schema.Types.ObjectId, ref: 'medicine' }],
+  // fmortality: [{ type: Schema.Types.ObjectId, ref: 'mortality' }],
+
 }, { timestamps: true });
 
 FarmSchema.pre('save', async function (next) {

@@ -6,7 +6,7 @@ const FeedSchema = new mongoose.Schema({
     consume: { type: String, required: true },
     receive: { type: String, required: true }, 
     fdate: { type: Date, default: Date.now },
-    user:{ type: mongoose.Schema.Types.ObjectId, ref: 'FarmModel', required: true }, 
+    user:{ type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, 
   });
   
   const FeedModel = mongoose.model('feeds',FeedSchema);

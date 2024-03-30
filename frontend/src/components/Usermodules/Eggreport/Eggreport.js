@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { deleteEgg, eggReport, getEggReport, updateEgg } from '../../../Services/UserApi';
 
 
@@ -13,16 +13,18 @@ const validationSchema = Yup.object().shape({
   date: Yup.date().required('date is required'),
   selectedName: Yup.string().required('selected value is required'),
 });
-const Eggreport = ({ userId }) => {
+const Eggreport = () => {
   const [eusers, setEusers] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const userId = useParams().userid;
 
-  const fetchEggData = async () => {
+
+  const fetchEggData = async (userId) => {
     try {
       const response = await getEggReport( userId );
       if (response && response.eggs) {
-        const eggs = response.eggs || [];
-        setEusers(eggs);
+        const egg = response.eggs || [];
+        setEusers(egg);
       } else {
         console.error('feed list not available', response);
       }
@@ -32,7 +34,9 @@ const Eggreport = ({ userId }) => {
   };
   
   useEffect(() => {
-    fetchEggData();
+
+    fetchEggData(userId);
+
   }, [userId]);
 
   const formik = useFormik({
@@ -54,7 +58,7 @@ const Eggreport = ({ userId }) => {
         console.log('egg report created successfully');
         toast.success('egg report created successful');
         } 
-        fetchEggData();  
+        fetchEggData(userId);  
       } catch (error) {
         console.error('Error craeting report:', error.message);
         toast.error('Error creating report');

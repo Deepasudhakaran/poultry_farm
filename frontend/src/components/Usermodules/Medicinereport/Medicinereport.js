@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Medicine.css'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,13 +17,14 @@ const Medicinereport = () => {
 
   const [mdusers, setMdusers] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const userId = useParams().userid;
 
-  const fetchMedicineData = async () => {
+  const fetchMedicineData = async (userId) => {
     try {
-      const response = await getMedicineReport();
+      const response = await getMedicineReport(userId);
       if (response && response.medicines) {
-        const medicines = response.medicines || [];
-        setMdusers(medicines);
+        const medicine = response.medicines || [];
+        setMdusers(medicine);
       } else {
         console.error('feed list not available', response);
       }
@@ -35,8 +36,8 @@ const Medicinereport = () => {
 
 
   useEffect(() => {
-    fetchMedicineData();
-  }, []);
+    fetchMedicineData(userId);
+  }, [userId]);
 
   const formik = useFormik({
     initialValues: {
@@ -51,10 +52,10 @@ const Medicinereport = () => {
           setEditingId(null); 
           toast.success('Medicine report updated successfully');
         } else {
-          await medicineReport(values);
+          await medicineReport(userId,values);
           toast.success('Medicine report created successful');
         }
-        fetchMedicineData(); 
+        fetchMedicineData(userId); 
       } catch (error) {
         console.error('Error creating/updating report:', error.message);
         toast.error('Error creating/updating report');

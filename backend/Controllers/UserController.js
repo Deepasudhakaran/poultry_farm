@@ -74,51 +74,26 @@ exports.userHeader = async (req, res) => {
 
 
 
-// exports.feedReport = async (req, res) => {
-//   try {
-//     const create = new FeedModel({
-//       consume: req.body.consume,
-//       receive: req.body.receive,
-//       date: req.body.date,
-//       selectedvalue: req.body.selectedvalue,
-//     });
-//     await create.save();
-//     res.status(201).json({ message: 'Post creation successful' });
-//   } catch (error) {
-//     console.error('Error creating post:', error.message);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
-
-
-
 exports.feedReport = async (req, res) => {
+  const userId = req.user.id;
+  const user = await FarmModel.findById(userId).populate('post');
+  if (!user) {
+    throw new Error('Post not found');
+  }
   try {
-    const userId = req.params.userId; 
-    console.log('userId:',userId);
-    const { consume, receive, date, selectedvalue } = req.body;
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID is required' });
-    }
-    const user = await  FarmModel.findById(userId).populate('post');
-
-    if(!user){
-      throw new Error('user not found');
-    }
     const create = new FeedModel({
-      consume,
-      receive,
-      date,
-      selectedvalue,
-      user: userId, 
+      consume: req.body.consume,
+      receive: req.body.receive,
+      date: req.body.date,
+      selectedvalue: req.body.selectedvalue,
+      user: userId,
     });
-
     await create.save();
     user.post.push(create);
     await user.save();
-    res.status(201).json({ message: 'Feed report creation successful' });
+    res.status(201).json({ message: 'Post creation successful' });
   } catch (error) {
-    console.error('Error creating feed report:', error.message);
+    console.error('Error creating post:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
@@ -126,38 +101,9 @@ exports.feedReport = async (req, res) => {
 
 
 
-// exports.feedReport = async (req, res) => {
-//   try {
-//     const userId = req.userId; 
-//     const { consume, receive, date, selectedvalue } = req.body;
-//     const user = await FarmModel.findById(userId);
-
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     const create = new FeedModel({
-//       consume,
-//       receive,
-//       date,
-//       selectedvalue,
-//       user: userId, 
-//     });
-
-//     await create.save();
-//     user.feed.push(create);
-//     await user.save();
-//     res.status(201).json({ message: 'Feed report creation successful' });
-//   } catch (error) {
-//     console.error('Error creating feed report:', error.message);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
-
-
 exports.getFeedReport = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.user.id;
     const post = await FeedModel.find({ user: userId });
     res.status(200).json({ post });
   } catch (error) {
@@ -165,7 +111,6 @@ exports.getFeedReport = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
 
 
 
@@ -216,16 +161,24 @@ exports.updateFeed = async (req, res) => {
 
 
 exports.eggReport = async (req, res) => {
+
+  const userId = req.user.id;
+  const user = await FarmModel.findById(userId).populate('fegg');
+  if (!user) {
+    throw new Error('Post not found');
+  }
+
   try {
     const create = new EggModel({
       date: req.body.date,
       selectedName: req.body.selectedName,
       total: req.body.total,
       broken: req.body.broken,
-      createdBy: req.params.userId 
-
+      user: userId,
     });
     await create.save();
+    user.fegg.push(create);
+    await user.save();
     res.status(201).json({ message: 'Egg report creation successful' });
   } catch (error) {
     console.error('Error creating post:', error.message);
@@ -237,7 +190,8 @@ exports.eggReport = async (req, res) => {
 
 exports.getEggReport = async (req, res) => {
   try {
-    const eggs = await EggModel.find({ createdBy: req.params.userId });
+    const userId = req.user.id;
+    const eggs = await EggModel.find({ user: userId });
     res.status(200).json({ eggs });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
@@ -262,7 +216,7 @@ exports.deleteEgg = async (req, res) => {
 exports.updateEgg = async (req, res) => {
   try {
     const { id } = req.params;
-    const { date,  selectedName, total, broken } = req.body;
+    const { date, selectedName, total, broken } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid medicine ID' });
@@ -290,13 +244,20 @@ exports.updateEgg = async (req, res) => {
 // ------------medicine-----------------
 
 exports.medicineReport = async (req, res) => {
+  const userId = req.user.id;
+  const user = await FarmModel.findById(userId).populate('fmedicine');
+  if (!user) {
+    throw new Error('Post not found');
+  }
   try {
     const create = new MedicineModel({
       date: req.body.date,
       selectedmedicine: req.body.selectedmedicine,
-
+      user: userId,
     });
     await create.save();
+    user.fmedicine.push(create);
+    await user.save();
     res.status(201).json({ message: 'Medicine report creation successful' });
   } catch (error) {
     console.error('Error creating post:', error.message);
@@ -309,7 +270,8 @@ exports.medicineReport = async (req, res) => {
 
 exports.getMedicineReport = async (req, res) => {
   try {
-    const medicines = await MedicineModel.find();
+    const userId = req.user.id;
+    const medicines = await MedicineModel.find({ user: userId });
     res.status(200).json({ medicines });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
@@ -358,13 +320,21 @@ exports.updateMedicine = async (req, res) => {
 // ----------------mortality--------------
 
 exports.mortalityReport = async (req, res) => {
+  const userId = req.user.id;
+  const user = await FarmModel.findById(userId).populate('post');
+  if (!user) {
+    throw new Error('Post not found');
+  }
   try {
     const create = new MortalityModel({
       date: req.body.date,
       mortality: req.body.mortality,
       selectedvalue: req.body.selectedvalue,
+      user: userId,
     });
     await create.save();
+    user.post.push(create);
+    await user.save();
     res.status(201).json({ message: 'Egg report creation successful' });
   } catch (error) {
     console.error('Error creating post:', error.message);
@@ -375,7 +345,8 @@ exports.mortalityReport = async (req, res) => {
 
 exports.getMortalityReport = async (req, res) => {
   try {
-    const mortalities = await MortalityModel.find();
+    const userId = req.user.id;
+    const mortalities = await MortalityModel.find({ user: userId });
     res.status(200).json({ mortalities });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);

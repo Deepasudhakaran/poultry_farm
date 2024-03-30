@@ -7,7 +7,7 @@ const mortalitySchema = new Schema({
    date: { type: Date, default: Date.now },
    selectedvalue: { type : String, required: true },
     mortality: { type : String, required: true },
-    
+    user:{ type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, 
   });
   
 
