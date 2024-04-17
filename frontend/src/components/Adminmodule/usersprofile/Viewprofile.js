@@ -1,15 +1,15 @@
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getAdminProfile } from '../../../Services/AdminApi';
 
 const Viewprofile = () => {
 
   const [profileData, setProfileData] = useState([]);
-
+  const { id } = useParams();
   const fetchProfileData = async () => {
     try {
-      const response = await getAdminProfile();
+      const response = await getAdminProfile(id);
       if (response && response.profiles) {
         const profiles = response.profiles || [];
         setProfileData(profiles);
@@ -22,8 +22,8 @@ const Viewprofile = () => {
   };
 
   useEffect(() => {
-    fetchProfileData();
-  }, []);
+    fetchProfileData(id);
+  }, [id]);
 
   return (
     <div>

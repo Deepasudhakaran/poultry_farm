@@ -1,18 +1,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { deleteAdminMedicine, getAdminMedicineReport } from '../../../Services/AdminApi';
+import { useParams } from 'react-router-dom';
 
 
 
 const Medicineadmin = () => {
-
-
   
   const [mdusers, setMdusers] = useState([]);
+  const { id } = useParams();
 
-  const fetchMedicineData = async () => {
+  const fetchMedicineData = async (id) => {
     try {
-      const response = await getAdminMedicineReport();
+      const response = await getAdminMedicineReport(id);
       if (response && response.medicines) {
         const medicines = response.medicines || [];
         setMdusers(medicines);
@@ -27,8 +27,8 @@ const Medicineadmin = () => {
 
 
   useEffect(() => {
-    fetchMedicineData();
-  }, []);
+    fetchMedicineData(id); 
+  }, [id]);
 
   const handleDelete = async (id) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this item? ');

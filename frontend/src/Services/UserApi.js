@@ -28,9 +28,9 @@ export const userHeader = () => {
   };
   
 
-  export const feedReport =  async (userId, values) =>{
+  export const feedReport =  async (userId,farmId, values) =>{
     try{
-        const response = await UserInstances.post('/feed', { ...values ,userId});
+        const response = await UserInstances.post('/feed', { ...values ,userId,farmId});
         console.log('Respons:', response.data);
         return response.data;
     } catch (error) {
@@ -40,9 +40,9 @@ export const userHeader = () => {
     }
 };
 
-export const getFeedReport = async (userId) => {
+export const getFeedReport = async (userId, farmId) => {
     try {
-      const response = await UserInstances.get(`/feedlist/${userId}`);
+      const response = await UserInstances.get(`/feedlist/${userId}`, farmId);
       return response.data;
     } catch (error) {
       throw error;
@@ -154,9 +154,9 @@ export const getMortalityReport = async (userId) => {
 
 
   
-  export const userProfile =  async (values) =>{
+  export const userProfile =  async (userId,values) =>{
     try{
-        const response = await UserInstances.post('/editprofile', { ...values });
+        const response = await UserInstances.post('/editprofile', { ...values,userId });
         console.log('Respons:', response.data);
         return response.data;
     } catch (error) {
@@ -168,9 +168,9 @@ export const getMortalityReport = async (userId) => {
 
 
 
-export const getProfile = async () => {
+export const getProfile = async (userId) => {
   try {
-    const response = await UserInstances.get('/profile ');
+    const response = await UserInstances.get(`/profile/${userId}`);
     return response.data;
   } catch (error) {
     throw error;

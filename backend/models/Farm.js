@@ -13,7 +13,8 @@ const FarmSchema = new Schema({
   fegg: [{ type: Schema.Types.ObjectId, ref: 'eggs' }],
   fmedicine: [{ type: Schema.Types.ObjectId, ref: 'medicine' }],
   // fmortality: [{ type: Schema.Types.ObjectId, ref: 'mortality' }],
-
+  profi: [{ type: Schema.Types.ObjectId, ref: 'Profile' }],
+  isBlocked: { type: Boolean, default: false },
 }, { timestamps: true });
 
 FarmSchema.pre('save', async function (next) {

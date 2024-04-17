@@ -1,18 +1,19 @@
 import React, { useEffect, useState }  from 'react';
 import './Profile.css';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getProfile } from '../../../Services/UserApi';
 
 const Profile = () => {
     
     const [profileData, setProfileData] = useState([]);
+    const userId = useParams().userid;
 
-    const fetchProfileData = async () => {
+    const fetchProfileData = async (userId) => {
       try {
-        const response = await getProfile();
+        const response = await getProfile(userId);
         if (response && response.profiles) {
-          const profiles = response.profiles || [];
-          setProfileData(profiles);
+          const profile = response.profiles || [];
+          setProfileData(profile);
         } else {
           console.error('feed list not available', response);
         }
@@ -22,8 +23,8 @@ const Profile = () => {
     };
   
     useEffect(() => {
-      fetchProfileData();
-    }, []);
+      fetchProfileData(userId);
+    }, [userId]);
 
   return (
     <div>

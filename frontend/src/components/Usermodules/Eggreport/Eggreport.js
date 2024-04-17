@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Link, useParams } from 'react-router-dom';
 import { deleteEgg, eggReport, getEggReport, updateEgg } from '../../../Services/UserApi';
-
+import './Egg.css'
 
 const validationSchema = Yup.object().shape({
   total: Yup.number().required('total is required'),
@@ -108,7 +108,7 @@ const Eggreport = () => {
               />
               {formik.touched.date && formik.errors.date && (
                 <div className="invalid-feedback">{formik.errors.date}</div>
-              )}
+              )}<br/>
 
               <label>Flock Name :</label>
               <select

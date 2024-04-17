@@ -32,7 +32,7 @@ const Adminlogin = () => {
         const data = await adminLogin(values);
         if (data.status) {
           dispatch(setAdminDetails(data.admin));
-          navigate('/admin/userlist');
+          navigate('/admin/');
           localStorage.setItem('adminToken', data.token);
           toast.success(data.message);
         } else {

@@ -20,14 +20,51 @@ const createAdminToken = (id) => {
   });
 }
 
-
-
 exports.getUserList = async (req, res) => {
   try {
     const users = await FarmModel.find();
     res.status(200).json({ users });
   } catch (error) {
     console.error('Error fetching user list:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+exports.deleteuser = async (req, res) => {
+  try {
+    const deleteduser = await FarmModel.findByIdAndDelete(req.params.id);
+    res.json(deleteduser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+exports.blockUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await FarmModel.findByIdAndUpdate(userId, { isBlocked: true }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User blocked successfully', user });
+  } catch (error) {
+    console.error('Error blocking user:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+exports.unblockUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await FarmModel.findByIdAndUpdate(userId, { isBlocked: false }, { new: true });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User unblocked successfully', user });
+  } catch (error) {
+    console.error('Error unblocking user:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
@@ -61,7 +98,8 @@ exports.adminLogin = async (req, res) => {
 
 exports.getAdminFeedReport = async (req, res) => {
   try {
-    const feeds = await FeedModel.find();
+    const id = req.params.id; 
+    const feeds  = await FeedModel.find({ user: id }).populate('user'); 
     res.status(200).json({ feeds });
   } catch (error) {
     console.error('Error fetching feed list:', error.message);
@@ -72,7 +110,8 @@ exports.getAdminFeedReport = async (req, res) => {
 
 exports.getAdminEggReport = async (req, res) => {
   try {
-    const eggs = await EggModel.find();
+    const id = req.params.id; 
+    const eggs = await EggModel.find( { user: id } ).populate('user')
     res.status(200).json({ eggs });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
@@ -83,7 +122,8 @@ exports.getAdminEggReport = async (req, res) => {
 
 exports.getAdminMedicineReport = async (req, res) => {
   try {
-    const medicines = await MedicineModel.find();
+    const id = req.params.id;  
+    const medicines = await MedicineModel.find({ user: id }).populate('user'); 
     res.status(200).json({ medicines });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
@@ -95,7 +135,8 @@ exports.getAdminMedicineReport = async (req, res) => {
 
 exports.getAdminMortalityReport = async (req, res) => {
   try {
-    const mortalities = await MortalityModel.find();
+    const id = req.params.id;  
+    const mortalities = await MortalityModel.find({ user: id }).populate('user'); 
     res.status(200).json({ mortalities });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
@@ -107,7 +148,7 @@ exports.getAdminMortalityReport = async (req, res) => {
 
 exports.getAdminProfile = async (req, res) => {
   try {
-    const profiles = await ProfileModel.find();
+    const profiles = await ProfileModel.findById(req.params.id);
     res.status(200).json({ profiles });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
@@ -127,8 +168,6 @@ exports.deleteAdminFeed = async (req, res) => {
 };
 
 
-
-
 exports.deleteAdminEgg = async (req, res) => {
   try {
     const deletedegg = await EggModel.findByIdAndDelete(req.params.id);
@@ -138,9 +177,6 @@ exports.deleteAdminEgg = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
-
-
-
 
 
 exports.deleteAdminMedicine = async (req, res) => {
@@ -174,8 +210,6 @@ exports.getAdminNotifionList = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
-
 
 
 exports.deleteMessage = async (req, res) => {

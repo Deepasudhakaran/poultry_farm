@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Atable.css';
 import { deleteAdminEgg, getAdminEggReport } from '../../../Services/AdminApi';
+import { useParams } from 'react-router-dom';
 
 
 const Egg = () => {
   
   const [eusers, setEusers] = useState([]);
-
-  const fetchEggData = async () => {
+  const { id } = useParams();
+  const fetchEggData = async (id) => {
     try {
-      const response = await getAdminEggReport();
+      const response = await getAdminEggReport(id);
       if (response && response.eggs) {
         const eggs = response.eggs || [];
         setEusers(eggs);
@@ -22,8 +23,8 @@ const Egg = () => {
   };
 
   useEffect(() => {
-    fetchEggData();
-  }, []);
+    fetchEggData(id);
+  }, [id]);
 
   
   const handleDelete = async (id) => {
@@ -58,9 +59,9 @@ const Egg = () => {
               {eusers.map((user, index) => (
                 <tr key={user._id}>
                   <td>{index + 1}</td>
-                  <td>{user.edate}</td>
+                  <td>{user.date}</td>
                   <td>{user.selectedName}</td>
-                  <td>{user.enumber}</td>
+                  <td>{user.total}</td>
                   <td>{user.broken}</td>
                   <td>
                     <button className='btn btn-sm btn-danger ms-2' onClick={() => handleDelete(user._id)}>Delete</button>

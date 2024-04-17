@@ -7,10 +7,6 @@ import { selectUser, setUserDetails } from '../../../Features/setUser';
 import { userHeader } from '../../../Services/UserApi';
 
 
-
-
-
-
 const Navbar = () => {
 // const navigate = useNavigate();
 

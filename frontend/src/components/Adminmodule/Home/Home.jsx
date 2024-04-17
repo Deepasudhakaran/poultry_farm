@@ -27,9 +27,6 @@ const Home = () => {
     <div>
       <div className="admin-nav">
         <ul>
-          {/* <li>
-          <Link to="/admin/dashboard" >Home</Link>
-          </li> */}
           <li>
           <Link to="/admin/" >Users</Link>
           </li>

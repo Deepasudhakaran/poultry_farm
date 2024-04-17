@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { userProfile } from '../../../Services/UserApi';
+import { useParams } from 'react-router-dom';
 
 
 const validationSchema = Yup.object().shape({
@@ -26,7 +27,7 @@ const validationSchema = Yup.object().shape({
 
 const Editprofile = () => {
 
-
+  const userId = useParams().userid;
 
 
   const formik = useFormik({
@@ -39,20 +40,20 @@ const Editprofile = () => {
       phoneno: '',
       houseno: '',
       capacity: '',
-      isBroiler: false, 
-    isLayer: false, 
-    isBreeder: false, 
+      isBroiler: false,
+      isLayer: false,
+      isBreeder: false,
       birdno: '',
       broilerno: '',
       breederno: '',
       layerno: '',
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async ( values) => {
       try {
-        await userProfile(values);
-        console.log('feed report created successfully');
-        toast.success('feed report created successful');
+        await userProfile(userId, values);
+        console.log('Profile updated successfully');
+        toast.success('Profile updated successfully');
 
       } catch (error) {
         console.error('Error craeting report:', error.message);
@@ -76,16 +77,17 @@ const Editprofile = () => {
           <div class="row">
             <div class="col">
               <label>Farm Name :</label>
-              <input type="text"
-                placeholder="Farm name"
-                name='farmname'
-                className={`form-control ${formik.touched.farmname && formik.errors.farmname ? 'is-invalid' : ''}`}
+              <input
+                type="text"
+                name="farmname"
+                className='form-control'
+                value={formik.values.farmname}
+                placeholder="enter your name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.farmname}
               />
               {formik.touched.farmname && formik.errors.farmname && (
-                <div className="invalid-feedback">{formik.errors.farmname}</div>
+                <div className="error-message">{formik.errors.farmname}</div>
               )}
 
 
@@ -147,6 +149,7 @@ const Editprofile = () => {
                 rows="3"
                 cols="10"
                 name="address"
+                className='form-control'
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.address}
@@ -160,17 +163,16 @@ const Editprofile = () => {
             <div class="col">
               <label >Phone Number :</label>
               <input
-                type='number'
-                name='phoneno'
-                class="form-control"
-                placeholder="Phone Number"
-                className={`form-control ${formik.touched.phoneno && formik.errors.phoneno ? 'is-invalid' : ''}`}
+                type="text"
+                name="phoneno"
+                className='form-control'
+                value={formik.values.phone}
+                placeholder="enter your phone number"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.phoneno}
               />
               {formik.touched.phoneno && formik.errors.phoneno && (
-                <div className="invalid-feedback">{formik.errors.phoneno}</div>
+                <div className="error-message">{formik.errors.phoneno}</div>
               )}
               <br /><br />
 
@@ -183,7 +185,7 @@ const Editprofile = () => {
               <label>Number of Chicken Houses :</label>
               <input type='number'
                 name='houseno'
-                className={` ${formik.touched.houseno && formik.errors.houseno ? 'is-invalid' : ''}`}
+                className={`form-control ${formik.touched.houseno && formik.errors.houseno ? 'is-invalid' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.houseno}
@@ -198,7 +200,7 @@ const Editprofile = () => {
               <input
                 type='number'
                 name='capacity'
-                className={` ${formik.touched.capacity && formik.errors.capacity ? 'is-invalid' : ''}`}
+                className={`form-control ${formik.touched.capacity && formik.errors.capacity ? 'is-invalid' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.capacity}
@@ -274,12 +276,12 @@ const Editprofile = () => {
               <input
                 type='number'
                 name='broilerno'
-                className={` ${formik.touched.broilerno && formik.errors.broilerno ? 'is-invalid' : ''}`}
+                className={`form-control ${formik.touched.broilerno && formik.errors.broilerno ? 'is-invalid' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.broilerno}
               />
-              {formik.touched.broilerno && formik.errors.broilerno && (
+              {formik.touched.broilerno && formik.errors.broilerno&& (
                 <div className="invalid-feedback">{formik.errors.broilerno}</div>
               )}
 
@@ -292,7 +294,7 @@ const Editprofile = () => {
               <input
                 type='number'
                 name='layerno'
-                className={` ${formik.touched.layerno && formik.errors.layerno ? 'is-invalid' : ''}`}
+                className={`form-control ${formik.touched.layerno && formik.errors.layerno ? 'is-invalid' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.layerno}
@@ -308,7 +310,7 @@ const Editprofile = () => {
               <input
                 type='number'
                 name='breederno'
-                className={` ${formik.touched.breederno && formik.errors.breederno ? 'is-invalid' : ''}`}
+                className={`form-control ${formik.touched.breederno && formik.errors.breederno ? 'is-invalid' : ''}`}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.breederno}

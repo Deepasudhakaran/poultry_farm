@@ -8,6 +8,8 @@ const MedicineModel = require('../models/Medicine');
 const MortalityModel = require('../models/Mortality');
 const ProfileModel = require('../models/profile');
 const Message = require('../models/Contact');
+const AdminModel = require('../models/Admin');
+const { error } = require('console');
 const maxAge = 3 * 24 * 60 * 60;
 
 
@@ -18,8 +20,6 @@ const createToken = (id) => {
     expiresIn: maxAge,
   })
 }
-
-
 
 exports.signUp = async (req, res) => {
   try {
@@ -45,6 +45,10 @@ exports.userLogin = async (req, res) => {
     const { email, password } = req.body;
     const user = await FarmModel.findOne({ email });
 
+    if (user.isBlocked) {
+      return res.status(401).json({ message: 'Account is blocked. Contact admin for assistance.' });
+    }
+    
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({ message: 'Incorrect email or password' });
     }
@@ -76,7 +80,9 @@ exports.userHeader = async (req, res) => {
 
 exports.feedReport = async (req, res) => {
   const userId = req.user.id;
+
   const user = await FarmModel.findById(userId).populate('post');
+
   if (!user) {
     throw new Error('Post not found');
   }
@@ -132,17 +138,13 @@ exports.updateFeed = async (req, res) => {
   try {
     const { id } = req.params;
     const { consume, receive, date, selectedvalue } = req.body;
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid medicine ID' });
     }
-
     const feed = await FeedModel.findById(id);
-
     if (!feed) {
       return res.status(404).json({ message: 'feed not found' });
     }
-
     feed.consume = consume;
     feed.receive = receive;
     feed.date = date;
@@ -279,6 +281,8 @@ exports.getMedicineReport = async (req, res) => {
   }
 };
 
+
+
 exports.deleteMedicine = async (req, res) => {
   try {
     const deletedmedicine = await MedicineModel.findByIdAndDelete(req.params.id);
@@ -289,19 +293,23 @@ exports.deleteMedicine = async (req, res) => {
   }
 };
 
+
+
+
 exports.updateMedicine = async (req, res) => {
   try {
     const { id } = req.params;
     const { date, selectedmedicine } = req.body;
 
+    // Validate ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: 'Invalid medicine ID' });
     }
 
+    // Find and update the medicine report
     let medicine = await MedicineModel.findById(id);
-
     if (!medicine) {
-      return res.status(404).json({ message: 'Medicine not found' });
+      return res.status(404).json({ message: 'Medicine report not found' });
     }
 
     medicine.date = date;
@@ -309,13 +317,12 @@ exports.updateMedicine = async (req, res) => {
 
     await medicine.save();
 
-    res.status(200).json({ message: 'Medicine updated successfully' });
+    res.status(200).json({ message: 'Medicine report updated successfully' });
   } catch (error) {
-    console.error('Error updating medicine:', error.message);
+    console.error('Error updating medicine report:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
 
 // ----------------mortality--------------
 
@@ -333,7 +340,7 @@ exports.mortalityReport = async (req, res) => {
       user: userId,
     });
     await create.save();
-    user.post.push(create);
+    user.post.push(create); 
     await user.save();
     res.status(201).json({ message: 'Egg report creation successful' });
   } catch (error) {
@@ -393,28 +400,54 @@ exports.updateMortality = async (req, res) => {
 };
 
 
-exports.userProfile = async (req, res) => {
-  try {
-    const create = new ProfileModel({
-      farmname: req.body.farmname,
-      ownername: req.body.ownername,
-      email: req.body.email,
-      farmid: req.body.farmid,
-      address: req.body.address,
-      phoneno: req.body.phoneno,
-      houseno: req.body.houseno,
-      capacity: req.body.capacity,
-      isBroiler: req.body.isBroiler,
-      isLayer: req.body.isLayer,
-      isBreeder: req.body.isBreeder,
-      birdno: req.body.birdno,
-      broilerno: req.body.broilerno,
-      breederno: req.body.breederno,
-      layerno: req.body.layerno,
 
+exports.userProfile = async (req, res) => {
+
+
+  const { farmname, ownername, email, farmid, address, phoneno, houseno, capacity, isBroiler, isLayer, isBreeder, birdno, broilerno, breederno, layerno, } = req.body
+  const userId = req.user.id;
+  const user = await FarmModel.findById(userId).populate('profi');
+  if (!user) {
+    throw new Error('Post not found');
+  }
+
+  try {
+    const existingFarm = await FarmModel.findOne({ farmid : farmid});
+      
+if( existingFarm){
+  return res.json({
+    message: "Farm with this licence ID already exists",
+    status : false,
+  })
+}
+
+
+    const create = new ProfileModel({
+      farmname: farmname,
+      ownername:ownername,
+      email: email,
+      farmid: farmid,
+      address: address,
+      phoneno: phoneno,
+      houseno: houseno,
+      capacity:capacity,
+      isBroiler: isBroiler,
+      isLayer: isLayer,
+      isBreeder: isBreeder,
+      birdno: birdno,
+      broilerno: broilerno,
+      breederno: breederno,
+      layerno: layerno,
+      user: userId,
+  
     });
     await create.save();
-    res.status(201).json({ message: 'Egg report creation successful' });
+    user.profi.push(create);
+    await user.save();
+
+
+
+    res.status(201).json({ message: 'profile report creation successful' });
   } catch (error) {
     console.error('Error creating post:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
@@ -422,15 +455,24 @@ exports.userProfile = async (req, res) => {
 };
 
 
+
+
+
 exports.getProfile = async (req, res) => {
   try {
-    const profiles = await ProfileModel.find();
-    res.status(200).json({ profiles });
+    const userId = req.user.id;
+    const profiles = await ProfileModel.find({ user: userId });
+    if(profiles){
+     return  res.status(200).json({ profiles, status:true });
+    } else {
+      return res.json({ status : false})
+    }
   } catch (error) {
     console.error('Error fetching egg list:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 
 exports.Createusermessage = async (req, res) => {
@@ -446,4 +488,11 @@ exports.Createusermessage = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+
+
+
+
+
+
 

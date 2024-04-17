@@ -1,17 +1,18 @@
 
 import React, { useEffect, useState } from 'react';
 import { deleteAdminMortality, getAdminMortalityReport } from '../../../Services/AdminApi';
+import { useParams } from 'react-router-dom';
 
 
 const Amortality = () => {
 
   
   const [musers, setMusers] = useState([]);
+  const { id } = useParams();
 
-
-  const fetchMortalityData = async () => {
+  const fetchMortalityData = async (id) => {
     try {
-      const response = await getAdminMortalityReport();
+      const response = await getAdminMortalityReport(id);
       if (response && response.mortalities) {
         const mortalities = response.mortalities || [];
         setMusers(mortalities);
@@ -26,8 +27,8 @@ const Amortality = () => {
 
 
   useEffect(() => {
-    fetchMortalityData();
-  }, []);
+    fetchMortalityData(id);
+  }, [id]);
 
   const handleDelete = async (id) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this item? ');

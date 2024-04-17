@@ -9,6 +9,32 @@ export const getUserList = async () => {
   }
 };
 
+export const deleteuser = async (id) => {
+  try {
+    const response = await adminInstances.delete(`/deleteuser/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+
+
+export const blockUser = async (userId) => {
+  console.log(userId, 'userid');
+  return adminInstances.put(`/admin/block/${userId}`)
+
+};
+
+export const unblockUser = async (userId) => {
+  console.log(userId, 'userid');
+  return adminInstances.put(`/admin/unblock/${userId}`)
+};
+ 
+
+
 export const adminLogin = async (values) => {
   try {
     const response = await adminInstances.post("/adminlogin", { ...values })
@@ -18,14 +44,16 @@ export const adminLogin = async (values) => {
   }
 };
 
-export const getAdminFeedReport = async () => {
+export const getAdminFeedReport = async (id) => {
   try {
-    const response = await adminInstances.get('/adminfeedlist');
+    const response = await adminInstances.get(`/adminfeedlist/${id}`);
     return response.data;
   } catch (error) {
     throw error;
   }
 };
+
+
 
 export const deleteAdminFeed = async (id) => {
   try {
@@ -35,9 +63,9 @@ export const deleteAdminFeed = async (id) => {
     throw error;
   }
 }
-export const getAdminEggReport = async () => {
+export const getAdminEggReport = async (id) => {
   try {
-    const response = await adminInstances.get('/adminegglist');
+    const response = await adminInstances.get(`/adminegglist/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -54,9 +82,9 @@ export const deleteAdminEgg = async (id) => {
   }
 };
 
-export const getAdminMedicineReport = async () => {
+export const getAdminMedicineReport = async (id) => {
   try {
-    const response = await adminInstances.get('/adminmedicinelist');
+    const response = await adminInstances.get(`/adminmedicinelist/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -72,9 +100,9 @@ export const deleteAdminMedicine = async (id) => {
   }
 };
 
-export const getAdminMortalityReport = async () => {
+export const getAdminMortalityReport = async (id) => {
   try {
-    const response = await adminInstances.get('/adminmortalitylist');
+    const response = await adminInstances.get(`/adminmortalitylist/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -90,9 +118,9 @@ export const deleteAdminMortality = async (id) => {
   }
 }
 
-export const getAdminProfile = async () => {
+export const getAdminProfile = async (id) => {
   try {
-    const response = await adminInstances.get('/adminprofile');
+    const response = await adminInstances.get(`/adminprofile/${id}`);
     return response.data;
   } catch (error) {
     throw error;

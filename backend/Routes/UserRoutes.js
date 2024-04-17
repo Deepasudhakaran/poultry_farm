@@ -11,7 +11,7 @@ router.post('/feed',userAuthMiddleware, userController.feedReport);
 router.post('/egg',userAuthMiddleware, userController.eggReport);
 router.post('/medicine',userAuthMiddleware, userController.medicineReport);
 router.post('/mortality',userAuthMiddleware, userController.mortalityReport);
-router.post('/editprofile', userController.userProfile);
+router.post('/editprofile',userAuthMiddleware, userController.userProfile);
 router.post('/createmessage', userController.Createusermessage);
 
 router.get('/userheader', userAuthMiddleware, userController.userHeader);
@@ -20,7 +20,7 @@ router.get('/feedlist/:userId',userAuthMiddleware, userController.getFeedReport)
 router.get('/egglist/:userId',userAuthMiddleware, userController.getEggReport);
 router.get('/medicinelist',userAuthMiddleware, userController.getMedicineReport);
 router.get('/mortalitylist/:userId',userAuthMiddleware, userController.getMortalityReport);
-router.get('/profile', userController.getProfile);
+router.get('/profile/:userId',userAuthMiddleware, userController.getProfile);
 
 router.delete('/deletefeed/:id', userController.deleteFeed);
 router.delete('/deleteegg/:id', userController.deleteEgg);

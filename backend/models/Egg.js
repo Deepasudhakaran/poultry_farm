@@ -8,6 +8,7 @@ const EggSchema = new Schema({
      selectedName: { type: String, required: true },
      createdBy: { type: Schema.Types.ObjectId, ref: 'users' },
      user:{ type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, 
+    //  owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true }, 
   });
 
   const EggModel = mongoose.model('eggs', EggSchema);

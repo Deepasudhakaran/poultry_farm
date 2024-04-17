@@ -1,4 +1,4 @@
-
+/* 
 .main {
     padding: 16px;
     margin-top: 40px;
@@ -62,7 +62,7 @@
    margin-bottom: 40px;
    text-transform: uppercase;
   }
-  /* Responsive styles */
+ 
 @media only screen and (max-width: 768px) {
   .container {
       width: 90%;
@@ -78,7 +78,7 @@
       width: 100%;
   }
 }
-
+ */
 
 /* Common styles for all screen sizes */
 /* .container {

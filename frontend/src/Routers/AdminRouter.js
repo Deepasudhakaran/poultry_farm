@@ -15,13 +15,12 @@ const AdminRouter = () => {
   return (
     <div>
       <Routes>
-        {/* <Route path='/' element={<AdminHome />} /> */}
-        <Route path='/medicine' element={<AdminMedicine />} />
-        <Route path='/egg' element={<AdminEgg />} />
-        <Route path='/' element={<AdminUserlist />} />
-        <Route path='/mortality' element={<AdminMortality />} />
-        <Route path='/viewprofile' element={<UserProfiles />} />
-        <Route path='/feed' element={<AdminFeed />} />
+      <Route path='/' element={<AdminUserlist />} />
+        <Route path='/medicine/:id' element={<AdminMedicine />} />
+        <Route path='/egg/:id' element={<AdminEgg />} />
+        <Route path='/mortality/:id' element={<AdminMortality />} />
+        <Route path='/viewprofile/:id' element={<UserProfiles />} />
+        <Route path='/feed/:id' element={<AdminFeed />} />
         <Route path='/login' element={<AdminLogin />} />
         <Route path='/adduser' element={<AddUser/>}/>
         <Route path='/notification' element={<AdminNotification/>}/>

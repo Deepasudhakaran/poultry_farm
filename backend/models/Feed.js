@@ -7,6 +7,7 @@ const FeedSchema = new mongoose.Schema({
     receive: { type: String, required: true }, 
     fdate: { type: Date, default: Date.now },
     user:{ type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, 
+    
   });
   
   const FeedModel = mongoose.model('feeds',FeedSchema);

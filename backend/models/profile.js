@@ -18,7 +18,11 @@ const ProfileSchema = new mongoose.Schema({
   isBroiler: {type: Boolean,default: false,},
   isLayer: {type: Boolean,default: false,},
   isBreeder: {type: Boolean,default: false,},
+  user:{ type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, 
+//  owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true }, 
 });
 
 const ProfileModel = mongoose.model('Profile', ProfileSchema);
 module.exports = ProfileModel;
+
+

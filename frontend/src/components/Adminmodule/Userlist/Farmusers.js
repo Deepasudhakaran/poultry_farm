@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './Farmusers.css'
 import { Link } from 'react-router-dom';
-import { getUserList } from '../../../Services/AdminApi';
+import { blockUser, deleteuser, getUserList, unblockUser } from '../../../Services/AdminApi';
 
 
 
@@ -12,9 +12,8 @@ const Farmusers = () => {
 
   useEffect(() => {
     fetchItems();
-
-
   }, []);
+
 
   const fetchItems = async () => {
     try {
@@ -34,6 +33,46 @@ const Farmusers = () => {
       console.error('Error fetching user list :', error.message);
     }
   };
+
+
+
+
+
+  
+  const handleDelete = async (id) => {
+    const isConfirmed = window.confirm('Are you sure you want to delete this item? ');
+    if (isConfirmed) {
+      try {
+        await deleteuser(id);
+        fetchItems();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+
+
+  const handleBlockUser = async (userId) => {
+    try {
+      await blockUser(userId);
+
+      fetchItems();
+    } catch (error) {
+      console.error('Error blocking user:', error.message);
+    }
+  };
+
+  const handleUnblockUser = async (userId) => {
+    try {
+      await unblockUser(userId);
+
+      fetchItems();
+    } catch (error) {
+      console.error('Error unblocking user:', error.message);
+    }
+  };
+
 
   return (
     <div style={{ marginTop: '170px' }}>
@@ -56,11 +95,18 @@ const Farmusers = () => {
                   <td>{user.username}{' '}</td>
                   <td>{user.email}</td>
                   <td>
-                    <Link to={'/admin/viewprofile'} className='btn btn-sm btn-primary' >
+                    <Link to={`/admin/feed/${user._id}`} className='btn btn-sm btn-primary' >
                       View
                     </Link>
-                    <button className='btn btn-sm btn-danger ms-2' >
-                      pending
+                    <button className='btn btn-sm btn-danger ms-2'  onClick={() => handleDelete(user._id)} >
+                      Delete
+                    </button>
+
+                    <button onClick={() => handleBlockUser(user._id)} disabled={user.isBlocked} className='btn btn-sm btn-danger ms-2'>
+                      Block
+                    </button>
+                    <button onClick={() => handleUnblockUser(user._id)} disabled={!user.isBlocked} className='btn btn-sm btn-primary ms-2'>
+                      Unblock
                     </button>
                   </td>
                 </tr>

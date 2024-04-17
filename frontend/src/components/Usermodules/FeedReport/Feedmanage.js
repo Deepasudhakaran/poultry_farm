@@ -20,10 +20,11 @@ const Feedmanage = () => {
   const [fusers, setFusers] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const userId = useParams().userid;
+  const farmId = useParams().farmId;
 
-  const fetchFeedData = async (userId) => {
+  const fetchFeedData = async (userId,farmId) => {
     try {
-      const response = await getFeedReport(userId);
+      const response = await getFeedReport(userId,farmId);
       if (response && response.post) {
         const feeds = response.post || [];
         setFusers(feeds);
@@ -37,13 +38,13 @@ const Feedmanage = () => {
 
   useEffect(() => {
 
-    fetchFeedData(userId);
+    fetchFeedData(userId,farmId);
 
-  }, [userId]);
+  }, [userId,farmId]);
   const formik = useFormik({
     initialValues: {
-      consume: 0,
-      receive: 0,
+      consume: '',
+      receive: '',
       date: '',
       selectedvalue: '',
     },
@@ -55,11 +56,11 @@ const Feedmanage = () => {
           setEditingId(null);
           toast.success('feed report created successful');
         }else {
-          await feedReport(userId, values);
+          await feedReport(userId, farmId,values);
           console.log('feed report created successfully');
           toast.success('feed report created successful');
         }
-       fetchFeedData(userId);
+       fetchFeedData(userId,farmId);
       } catch (error) {
         console.error('Error craeting report:', error.message);
         toast.error('Error creating report');
@@ -155,9 +156,9 @@ const Feedmanage = () => {
 
                         <button type='submit'>submit</button>
                     </form>
-                </div>
-                
+                </div>   
             </div>
+            
       <div className='container'>
       
         <h3> Feed Report</h3><br />

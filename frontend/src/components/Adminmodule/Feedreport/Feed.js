@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { deleteAdminFeed, getAdminFeedReport } from '../../../Services/AdminApi';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -8,9 +9,11 @@ const Feed = () => {
 
   const [fusers, setFusers] = useState([]);
 
-  const fetchFeedData = async () => {
+  const { id } = useParams();
+ 
+  const fetchFeedData = async (id) => {
     try {
-      const response = await getAdminFeedReport();
+      const response = await getAdminFeedReport(id);
       if (response && response.feeds) {
         const feeds = response.feeds || [];
         setFusers(feeds);
@@ -21,14 +24,11 @@ const Feed = () => {
       console.error('Error fetching feed reports:', error.message);
     }
   };
-
-
-
+  
   useEffect(() => {
-    fetchFeedData();
-  }, []);
-
-
+    fetchFeedData(id);
+  }, [id]);
+  
   const handleDelete = async (id) => {
     const isConfirmed = window.confirm('Are you sure you want to delete this item? ');
     if(isConfirmed) {
@@ -76,3 +76,7 @@ const Feed = () => {
 }
 
 export default Feed;
+
+
+
+

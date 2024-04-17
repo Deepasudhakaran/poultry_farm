@@ -5,14 +5,15 @@ import './About.css'
 
 const About = () => {
   return (
-    <div>
+    <div className='abouttop'>
  
 
       <div className='second'>
         <div className='Third-page-reverse'>
 
           <div className='second-text'>
-            <h3>About Us</h3>
+            <h3>About Us
+            </h3>
             <p>Poultry farming, raising of birds domestically or commercially, primarily for meat and eggs but also for feathers. Chickens, turkeys, ducks, and geese are of primary importance, while guinea fowl and squabs (young pigeons) are chiefly of local interest. This article treats the principles and practices of poultry farming. For a discussion of the food value and processing of poultry products, see egg and poultry processin</p><br />
           </div>
 
@@ -23,7 +24,7 @@ const About = () => {
               src="https://cdn.lavida.net.nz/cache/4a01ff043b81e22f1e62300ae90fc273_thumb.jpg" />
             <img
               alt=""
-              src="https://www.impactpartner.co/wp-content/uploads/2020/04/Farm-Trust.jpg" />
+              src="https://cdni.iconscout.com/illustration/premium/thumb/poultry-farm-6888007-5663175.png" />
           </div>
 
 

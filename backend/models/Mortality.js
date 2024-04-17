@@ -8,6 +8,7 @@ const mortalitySchema = new Schema({
    selectedvalue: { type : String, required: true },
     mortality: { type : String, required: true },
     user:{ type: mongoose.Schema.Types.ObjectId, ref: 'users', required: true }, 
+    // owner:{ type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true }, 
   });
   
 
