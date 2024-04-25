@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { adminSignup } from '../../../Services/AdminApi';
 
 
 const validationSchema = Yup.object().shape({
@@ -44,7 +45,7 @@ const Userregister = () => {
         validationSchema: validationSchema,
         onSubmit: async (values) => {
           try {
-            await (values);
+            await adminSignup(values);
             console.log('User registered successfully',values);
             toast.success('Register successful');
             navigate('/login');

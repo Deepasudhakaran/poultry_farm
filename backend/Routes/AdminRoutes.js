@@ -4,7 +4,7 @@ const adminController = require('../Controllers/AdminController');
 
 
 router.post('/adminlogin', adminController.adminLogin);
-
+router.post('/adminsignup', adminController.adminSignUp);
 
 
 router.put('/admin/block/:userId', adminController.blockUser);

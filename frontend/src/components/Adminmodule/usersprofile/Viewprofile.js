@@ -7,7 +7,7 @@ const Viewprofile = () => {
 
   const [profileData, setProfileData] = useState([]);
   const { id } = useParams();
-  const fetchProfileData = async () => {
+  const fetchProfileData = async (id) => {
     try {
       const response = await getAdminProfile(id);
       if (response && response.profiles) {

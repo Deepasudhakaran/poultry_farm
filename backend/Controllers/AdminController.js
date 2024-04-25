@@ -20,6 +20,27 @@ const createAdminToken = (id) => {
   });
 }
 
+
+
+exports.adminSignUp = async (req, res) => {
+  try {
+    const newUser = new FarmModel({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    });
+    await newUser.save();
+    const token = createAdminToken(newUser._id);
+    console.log('User registered successfully:', newUser, token);
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error('Error registering user:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
 exports.getUserList = async (req, res) => {
   try {
     const users = await FarmModel.find();
@@ -148,7 +169,8 @@ exports.getAdminMortalityReport = async (req, res) => {
 
 exports.getAdminProfile = async (req, res) => {
   try {
-    const profiles = await ProfileModel.findById(req.params.id);
+    const id = req.params.id; 
+    const profiles = await ProfileModel.find({ user: id }).populate('user');
     res.status(200).json({ profiles });
   } catch (error) {
     console.error('Error fetching egg list:', error.message);

@@ -19,9 +19,6 @@ export const deleteuser = async (id) => {
 };
 
 
-
-
-
 export const blockUser = async (userId) => {
   console.log(userId, 'userid');
   return adminInstances.put(`/admin/block/${userId}`)
@@ -146,3 +143,17 @@ export const deleteMessage = async (id) => {
   }
 }
 
+
+
+
+export const adminSignup =  async (values) =>{
+  try{
+      const response = await adminInstances.post('/adminsignup', { ...values });
+      console.log('Respons:', response.data);
+      return response.data;
+  } catch (error) {
+      console.error('error:', error);
+      console.log('Error message :', error.message);
+      throw error;
+  }
+};
